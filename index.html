@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ConvertAÍ — imagens para PDF</title>
+  <meta name="description" content="Junte imagens PNG, JPG e WEBP num PDF leve. Tudo acontece no seu aparelho: nenhuma imagem é enviada para servidor.">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <script src="vendor/pdf-lib.min.js" defer></script>
+  <script src="app.js" type="module"></script>
+</head>
+<body>
+  <main class="wrap">
+    <header class="head">
+      <h1><span class="logo" aria-hidden="true"></span><span>Convert<span class="accent">AÍ</span></span></h1>
+      <p class="tagline">Junte suas imagens num <strong>PDF leve</strong>, na ordem que quiser.</p>
+      <p class="privacy">🔒 Tudo acontece no seu aparelho. Suas imagens não são enviadas para nenhum servidor.</p>
+    </header>
+
+    <section id="pick" class="card">
+      <label id="drop" class="drop" for="files">
+        <input id="files" type="file" accept="image/png,image/jpeg,image/webp,.png,.jpg,.jpeg,.webp" multiple>
+        <span class="drop-icon" aria-hidden="true">＋</span>
+        <span class="drop-title">Arraste as imagens aqui ou toque para escolher</span>
+        <span class="drop-hint">PNG, JPG ou WEBP · até 100 imagens</span>
+      </label>
+      <p id="notice" class="notice" role="status" hidden></p>
+    </section>
+
+    <section id="list-card" class="card" hidden>
+      <div class="list-head">
+        <h2 id="count">0 imagens</h2>
+        <div class="list-actions">
+          <button type="button" class="link" id="sort">Ordenar por nome</button>
+          <button type="button" class="link danger" id="clear">Limpar tudo</button>
+        </div>
+      </div>
+      <p class="hint">Arraste para mudar a ordem ou use as setas. Cada imagem vira uma página.</p>
+      <ol id="list" class="list"></ol>
+    </section>
+
+    <section id="options" class="card" hidden>
+      <fieldset class="presets">
+        <legend>Qualidade</legend>
+        <label><input type="radio" name="preset" value="alta"> Alta qualidade</label>
+        <label><input type="radio" name="preset" value="equilibrada" checked> Equilibrada</label>
+        <label><input type="radio" name="preset" value="pequena"> Arquivo menor</label>
+      </fieldset>
+      <label class="maxsize">
+        <span>Tamanho máximo do PDF <span class="muted">(opcional)</span></span>
+        <span class="mb"><input id="maxmb" type="text" inputmode="decimal" placeholder="ex.: 5" autocomplete="off"> MB</span>
+      </label>
+      <p id="maxmb-error" class="error" hidden>Digite um número maior que zero, como 5 ou 2,5.</p>
+      <button type="button" id="go" class="primary">Gerar PDF</button>
+    </section>
+
+    <section id="progress" class="card" hidden>
+      <p id="progress-text">Preparando…</p>
+      <div class="bar"><div id="bar-fill"></div></div>
+      <button type="button" id="cancel" class="link">Cancelar</button>
+    </section>
+
+    <section id="result" class="card" hidden>
+      <p class="done">✅ PDF pronto</p>
+      <p id="result-info" class="result-info"></p>
+      <p id="result-warning" class="warning" hidden></p>
+      <ul id="skipped" class="skipped" hidden></ul>
+      <a id="download" class="primary" download="convertai.pdf">Baixar PDF</a>
+      <button type="button" id="back" class="link">Voltar e ajustar</button>
+      <button type="button" id="again" class="link">Fazer outro PDF</button>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <a href="https://github.com/clauberteixeira/ConvertAI">Código aberto no GitHub</a>
+  </footer>
+</body>
+</html>

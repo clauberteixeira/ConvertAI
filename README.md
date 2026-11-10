@@ -7,7 +7,7 @@
 **Suas imagens viram um PDF leve, direto no navegador.**
 
 [![Usar agora, é grátis](https://img.shields.io/badge/Usar_agora-%C3%A9_gr%C3%A1tis-0f766e?style=for-the-badge)](https://clauberteixeira.github.io/ConvertAI/)
-[![Baixar para usar sem internet](https://img.shields.io/badge/Baixar-usar_sem_internet-1e3a8a?style=for-the-badge)](https://github.com/clauberteixeira/ConvertAI/releases/latest/download/ConvertAI.html)
+[![Baixar para usar sem internet](https://img.shields.io/badge/Baixar-usar_sem_internet-1e3a8a?style=for-the-badge)](https://clauberteixeira.github.io/ConvertAI/baixar/)
 
 ![Privado](https://img.shields.io/badge/privado-nada_vai_para_servidor-555?style=flat-square)
 ![Sem cadastro](https://img.shields.io/badge/sem-cadastro-555?style=flat-square)
@@ -36,7 +36,7 @@ instalação, cadastro nem permissão especial.
 
 | Passo | O que você faz |
 |:---:|---|
-| **1** | Clique em **[Baixar ConvertAI.html](https://github.com/clauberteixeira/ConvertAI/releases/latest/download/ConvertAI.html)**. O arquivo vai para a sua pasta de Downloads. |
+| **1** | Clique em **[Baixar o ConvertAÍ](https://clauberteixeira.github.io/ConvertAI/baixar/)**. O arquivo vai para a sua pasta de Downloads. |
 | **2** | Dê **dois cliques** no arquivo. Ele abre no seu navegador (Chrome, Edge, Firefox ou Safari). |
 | **3** | Use do mesmo jeito que no site. Se quiser, **desligue a internet**: continua funcionando. |
 

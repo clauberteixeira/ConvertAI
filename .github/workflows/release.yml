@@ -1,0 +1,28 @@
+# Ao enviar uma tag de versão (ex.: v1.0.0), roda os testes, gera o ConvertAI.html
+# e publica numa Release do GitHub para download.
+name: Publicar versão offline
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm test
+      - run: npm run build
+      - name: Criar a Release com o arquivo
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" dist/ConvertAI.html \
+            --title "ConvertAÍ $GITHUB_REF_NAME" \
+            --notes "Baixe o **ConvertAI.html** abaixo e abra com dois cliques. Funciona no seu navegador, sem instalar nada e sem internet."

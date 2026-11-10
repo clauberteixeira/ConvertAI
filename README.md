@@ -7,6 +7,7 @@
 **Suas imagens viram um PDF leve, direto no navegador.**
 
 [![Usar agora, é grátis](https://img.shields.io/badge/Usar_agora-%C3%A9_gr%C3%A1tis-0f766e?style=for-the-badge)](https://clauberteixeira.github.io/ConvertAI/)
+[![Baixar para usar sem internet](https://img.shields.io/badge/Baixar-usar_sem_internet-1e3a8a?style=for-the-badge)](https://github.com/clauberteixeira/ConvertAI/releases/latest/download/ConvertAI.html)
 
 ![Privado](https://img.shields.io/badge/privado-nada_vai_para_servidor-555?style=flat-square)
 ![Sem cadastro](https://img.shields.io/badge/sem-cadastro-555?style=flat-square)
@@ -27,6 +28,20 @@
 | **4** | Clique em **Gerar PDF** e depois em **Baixar PDF**. Pronto! |
 
 Funciona no computador e no celular, sem instalar nada.
+
+## 💾 Prefere usar sem internet? Baixe o arquivo
+
+Se você não quer usar pelo link, pode ter o ConvertAÍ no seu computador. É **um arquivo só**: não tem
+instalação, cadastro nem permissão especial.
+
+| Passo | O que você faz |
+|:---:|---|
+| **1** | Clique em **[Baixar ConvertAI.html](https://github.com/clauberteixeira/ConvertAI/releases/latest/download/ConvertAI.html)**. O arquivo vai para a sua pasta de Downloads. |
+| **2** | Dê **dois cliques** no arquivo. Ele abre no seu navegador (Chrome, Edge, Firefox ou Safari). |
+| **3** | Use do mesmo jeito que no site. Se quiser, **desligue a internet**: continua funcionando. |
+
+Funciona igual no **Windows, Mac e Linux**. Dica: guarde o arquivo na Área de Trabalho para achar fácil.
+Todas as versões ficam na página de [Releases](https://github.com/clauberteixeira/ConvertAI/releases).
 
 ## 🔒 Suas imagens ficam com você
 
@@ -50,7 +65,18 @@ então ninguém além de você tem acesso a elas.
 ```bash
 python -m http.server 8000   # depois abra http://localhost:8000
 npm test                     # testes (Node 20 ou mais novo)
+npm run build                # gera dist/ConvertAI.html, a versão de arquivo único
 ```
+
+Para publicar uma versão nova do arquivo para download, envie uma tag:
+
+```bash
+git tag v1.1.0
+git push origin v1.1.0
+```
+
+O GitHub Actions roda os testes, gera o `ConvertAI.html` e cria a Release sozinho
+([.github/workflows/release.yml](.github/workflows/release.yml)).
 
 O PDF é montado com [pdf-lib](https://github.com/Hopding/pdf-lib) (licença MIT, cópia em `vendor/`).
 

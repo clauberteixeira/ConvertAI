@@ -7,7 +7,7 @@ const root = fileURLToPath(new URL('..', import.meta.url));
 const read = (f) => readFileSync(`${root}${f}`, 'utf8');
 
 const core = read('core.js').replace(/^export /gm, '');
-const app = read('app.js').replace(/^import \{[^}]*\} from '\.\/core\.js';\n/, '');
+const app = read('app.js').replace(/^import \{[^}]*\} from '\.\/core\.js';\r?\n/, '');
 const pdfLib = read('vendor/pdf-lib.min.js');
 const icon = `data:image/svg+xml;base64,${Buffer.from(read('icon.svg')).toString('base64')}`;
 

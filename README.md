@@ -41,6 +41,30 @@ instalação, cadastro nem permissão especial.
 | **3** | Use do mesmo jeito que no site. Se quiser, **desligue a internet**: continua funcionando. |
 
 Funciona igual no **Windows, Mac e Linux**. Dica: guarde o arquivo na Área de Trabalho para achar fácil.
+
+## 🖥️ Prefere instalar como programa?
+
+O ConvertAÍ também tem instalador, com ícone no menu Iniciar (ou no Launchpad, no Mac). Escolha o seu sistema:
+
+| Sistema | Baixar |
+|---|---|
+| **Windows** 10 ou 11 | [ConvertAI_x64-setup.exe](https://github.com/clauberteixeira/ConvertAI/releases/latest/download/ConvertAI_x64-setup.exe) |
+| **Mac** (Intel ou Apple M1/M2/M3/M4) | [ConvertAI_universal.dmg](https://github.com/clauberteixeira/ConvertAI/releases/latest/download/ConvertAI_universal.dmg) |
+| **Linux** (qualquer distribuição) | [ConvertAI_amd64.AppImage](https://github.com/clauberteixeira/ConvertAI/releases/latest/download/ConvertAI_amd64.AppImage) |
+| **Linux** (Ubuntu, Debian, Mint) | [ConvertAI_amd64.deb](https://github.com/clauberteixeira/ConvertAI/releases/latest/download/ConvertAI_amd64.deb) |
+
+**Na primeira vez, o sistema pode mostrar um aviso.** Isso é normal para programas gratuitos e de código
+aberto que não pagam pela assinatura digital. O programa é o mesmo deste repositório, gerado pelo próprio
+GitHub. Para liberar:
+
+- **Windows:** se aparecer "O Windows protegeu o computador", clique em **Mais informações** e depois em
+  **Executar assim mesmo**.
+- **Mac:** abra o `.dmg` e arraste o ConvertAÍ para **Aplicativos**. Se o Mac não deixar abrir, vá em
+  **Ajustes do Sistema > Privacidade e Segurança**, role até o fim e clique em **Abrir Mesmo Assim**.
+- **Linux (AppImage):** clique com o botão direito no arquivo, vá em **Propriedades > Permissões** e marque
+  **Permitir executar como programa**. Depois, dois cliques.
+
+No programa, o botão **Baixar PDF** abre a janela **Salvar como**, para você escolher onde guardar.
 Todas as versões ficam na página de [Releases](https://github.com/clauberteixeira/ConvertAI/releases).
 
 ## 🔒 Suas imagens ficam com você
@@ -68,15 +92,20 @@ npm test                     # testes (Node 20 ou mais novo)
 npm run build                # gera dist/ConvertAI.html, a versão de arquivo único
 ```
 
-Para publicar uma versão nova do arquivo para download, envie uma tag:
+O programa de desktop usa [Tauri](https://tauri.app) (pasta `src-tauri/`), que mostra os mesmos arquivos
+do site numa janela própria. Para testar no seu computador, instale o [Rust](https://rustup.rs) e rode
+`npm install` e depois `npm run tauri dev`.
+
+Para publicar uma versão nova, atualize `version` no `package.json` e envie uma tag com o mesmo número:
 
 ```bash
-git tag v1.1.0
-git push origin v1.1.0
+git tag v1.2.0
+git push origin v1.2.0
 ```
 
-O GitHub Actions roda os testes, gera o `ConvertAI.html` e cria a Release sozinho
-([.github/workflows/release.yml](.github/workflows/release.yml)).
+O GitHub Actions roda os testes, gera o `ConvertAI.html` e os instaladores de Windows, Mac e Linux, e cria
+a Release sozinho ([.github/workflows/release.yml](.github/workflows/release.yml)). Para só testar o build
+dos instaladores, sem publicar nada, use **Actions > Publicar versão > Run workflow**.
 
 O PDF é montado com [pdf-lib](https://github.com/Hopding/pdf-lib) (licença MIT, cópia em `vendor/`).
 

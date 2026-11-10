@@ -1,16 +1,19 @@
-# Ao enviar uma tag de versão (ex.: v1.0.0), roda os testes, gera o ConvertAI.html
-# e publica numa Release do GitHub para download.
-name: Publicar versão offline
+# Ao enviar uma tag de versão (ex.: v1.1.0): roda os testes, publica o ConvertAI.html
+# e os instaladores de Windows, Mac e Linux numa Release do GitHub.
+# Rodando à mão (aba Actions > "Run workflow"): só gera os instaladores, para testar, sem publicar.
+name: Publicar versão
 
 on:
   push:
     tags: ['v*']
+  workflow_dispatch:
 
 permissions:
   contents: write
 
 jobs:
-  release:
+  arquivo-unico:
+    if: startsWith(github.ref, 'refs/tags/')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -25,4 +28,52 @@ jobs:
         run: |
           gh release create "$GITHUB_REF_NAME" dist/ConvertAI.html \
             --title "ConvertAÍ $GITHUB_REF_NAME" \
-            --notes "Baixe o **ConvertAI.html** abaixo e abra com dois cliques. Funciona no seu navegador, sem instalar nada e sem internet."
+            --notes-file .github/release-notes.md
+
+  instaladores:
+    needs: arquivo-unico
+    if: ${{ !failure() && !cancelled() }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            args: ''
+          - os: macos-latest
+            args: --target universal-apple-darwin
+          - os: ubuntu-22.04
+            args: ''
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.os == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
+      - uses: swatinem/rust-cache@v2
+        with:
+          workspaces: './src-tauri -> target'
+      - name: Dependências do Linux
+        if: matrix.os == 'ubuntu-22.04'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
+      - run: npm ci
+      - uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          # Sem tag (rodada manual), só compila.
+          tagName: ${{ startsWith(github.ref, 'refs/tags/') && github.ref_name || '' }}
+          # Nome fixo, sem a versão, para os links "latest/download" do README nunca quebrarem.
+          assetNamePattern: '[name]_[arch][setup][ext]'
+          args: ${{ matrix.args }}
+      - name: Guardar os instaladores para teste
+        if: ${{ !startsWith(github.ref, 'refs/tags/') }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: instalador-${{ matrix.os }}
+          path: src-tauri/target/**/release/bundle/

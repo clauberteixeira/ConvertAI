@@ -9,6 +9,7 @@ let items = []; // { id, file, url }
 let nextId = 1;
 let cancelled = false;
 let pdfUrl = null;
+let pdfBytes = null;
 let dragFrom = null;
 
 class Cancelled extends Error {}
@@ -269,6 +270,7 @@ function showResult(best, limit, skipped) {
   if (pdfUrl) URL.revokeObjectURL(pdfUrl);
   pdfUrl = URL.createObjectURL(new Blob([best.bytes], { type: 'application/pdf' }));
   $('download').href = pdfUrl;
+  pdfBytes = best.bytes;
 
   const pages = best.pages === 1 ? '1 página' : `${best.pages} páginas`;
   $('result-info').textContent = `${pages} · ${formatBytes(best.bytes.length)}`;
@@ -291,7 +293,33 @@ function showResult(best, limit, skipped) {
   showStage('result');
 }
 
+// ---------- App de desktop (Tauri) ----------
+
+// No programa instalado, link de download e link externo não funcionam em todo sistema:
+// o PDF é salvo pela janela "Salvar como" e o GitHub abre no navegador da pessoa.
+function setupDesktop(tauri) {
+  $('download').addEventListener('click', async (e) => {
+    e.preventDefault();
+    try {
+      const path = await tauri.dialog.save({
+        defaultPath: 'convertai.pdf',
+        filters: [{ name: 'PDF', extensions: ['pdf'] }],
+      });
+      if (path) await tauri.fs.writeFile(path, pdfBytes);
+    } catch {
+      $('result-warning').textContent = 'Não foi possível salvar o PDF. Tente de novo ou escolha outra pasta.';
+      $('result-warning').hidden = false;
+    }
+  });
+  document.querySelector('.foot a').addEventListener('click', (e) => {
+    e.preventDefault();
+    tauri.opener.openUrl(e.currentTarget.href);
+  });
+}
+
 // ---------- Início ----------
+
+if (window.__TAURI__) setupDesktop(window.__TAURI__);
 
 setupReorder();
 setupFileDrop();
